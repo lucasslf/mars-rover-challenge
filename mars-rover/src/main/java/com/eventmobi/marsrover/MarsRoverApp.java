@@ -5,12 +5,8 @@
  */
 package com.eventmobi.marsrover;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.io.Console;
+import java.util.Arrays;
 
 /**
  *
@@ -18,87 +14,62 @@ import java.util.Scanner;
  */
 public class MarsRoverApp {
 
-    private static final Scanner scanner = new Scanner(System.in);
 
-    static final int NORTH = 0xFFFFFFFE;
-    static final int WEST =  0xFFFFFEFF;
-    static final int SOUTH = 0xFFFEFFFF;
-    static final int EAST = 0xFEFFFFFF;
-    
-    public static void left(int direction) {
-        int result = Integer.rotateLeft(direction, 8);
-        switch (result) {
-            case NORTH:
-                System.out.println("N"+result);
-                break;
-            case EAST:
-                System.out.println("E"+result);
-                break;
-            case SOUTH:
-                System.out.println("S"+result);
-                break;
-            case WEST:
-                System.out.println("W"+result);
-                break;
-                default:
-                System.out.println("DEU MERDA"+result);
 
+    static final String PLATEAU_INSTRUCTION = "Plateau";
+    static final String LANDING_INSTRUCTION = "Landing";
+    static final String MOVE_ROVER_COMMAND = "M";
+    static final String TURN_RIGHT_ROVER_COMMAND = "R";
+    static final String TURN_LEFT_ROVER_COMMAND = "L";
+
+   
+    public static void handle(String instructionLine) {
+        System.out.println(instructionLine);
+        String[] instruction = instructionLine.split(":");
+        if(instruction.length < 2){
+            throw new RuntimeException("Invalid Instruction");
+        }
+        String command = instruction[0];
+        
+        String[] arguments = Arrays.copyOfRange(instruction, 1, instruction.length - 1);
+        String[] compositeCommand = command.split(" ");
+        if (compositeCommand.length == 1) {
+
+        } else {
         }
     }
 
     public static void main(String[] args) {
+
         
         try {
-            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(System.out));
+            Console c = System.console();
+            /*
+             if (plateauDimensions.length != 2) {
+             throw new RuntimeException("Bad command format");
+             }
+             int width = Integer.parseInt(plateauDimensions[0]);
+             int height = Integer.parseInt(plateauDimensions[1]);
+             */
 
-            String[] plateauDimensions = scanner.nextLine().split(" ");
-            //TODO: Correct input treatment based on Abdul's e-mail
-            if (plateauDimensions.length != 2) {
-                throw new RuntimeException("Bad command format");
-            }
-            int width = Integer.parseInt(plateauDimensions[0]);
-            int height = Integer.parseInt(plateauDimensions[1]);
-            List<Rover> rovers = new ArrayList<>();
-            String commandLine = scanner.nextLine();
-            while (!"".equals(commandLine)) {
+            for (String instructionLine = c.readLine(); !"".equals(instructionLine);instructionLine = c.readLine()) {
 
-                String[] instruction = commandLine.split(" ");
-                if (instruction.length == 3) {
-                    int x = Integer.parseInt(instruction[0]);
-                    int y = Integer.parseInt(instruction[1]);
-                    if (x > width || y > height || x < 0 || y < 0) {
-                        throw new RuntimeException("Bad Rover Position");
-                    }
-                    Rover r = new Rover(x, y, instruction[2]);
+                handle(instructionLine);
+                /*
+                 if (instruction.length == 3) {
+                 int x = Integer.parseInt(instruction[0]);
+                 int y = Integer.parseInt(instruction[1]);
+                 if (x > width || y > height || x < 0 || y < 0) {
+                 throw new RuntimeException("Bad Rover Position");
+                 }
+                 Rover r = new Rover(x, y, instruction[2]);
 
-                }
-                commandLine = scanner.nextLine();
+                 }*/
             }
 
-            //Writes result
-            bufferedWriter.write("");
-
-            bufferedWriter.close();
-
-            scanner.close();
-        } catch (IOException ex) {
-            throw new RuntimeException("There was an unexpected error");
         } catch (NumberFormatException ex) {
             throw new RuntimeException("Bad number input");
         }
     }
 
-    static class Rover {
-
-        String heading;
-        int x;
-        int y;
-
-        public Rover(int x, int y, String heading) {
-            this.heading = heading;
-            this.x = x;
-            this.y = y;
-        }
-
-    }
 }
