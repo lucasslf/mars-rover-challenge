@@ -18,10 +18,10 @@ public class RoverTest {
     @Test
     public void roverShouldTurnLeft() {
         Dimension plateau = new Dimension(30, 30);
-        Rover roverNorth = new Rover(0, 0, Rover.NORTH, plateau);
-        Rover roverEast = new Rover(0, 0, Rover.EAST, plateau);
-        Rover roverSouth = new Rover(0, 0, Rover.SOUTH, plateau);
-        Rover roverWest = new Rover(0, 0, Rover.WEST, plateau);
+        Rover roverNorth = new Rover("roverNorth",0, 0, Rover.NORTH, plateau);
+        Rover roverEast = new Rover("roverEast",0, 0, Rover.EAST, plateau);
+        Rover roverSouth = new Rover("roverSouth",0, 0, Rover.SOUTH, plateau);
+        Rover roverWest = new Rover("roverWest",0, 0, Rover.WEST, plateau);
         roverNorth.turnLeft();
         roverEast.turnLeft();
         roverSouth.turnLeft();
@@ -36,10 +36,10 @@ public class RoverTest {
     @Test
     public void roverShouldTurnRight() {
         Dimension plateau = new Dimension(30, 30);
-        Rover roverNorth = new Rover(0, 0, Rover.NORTH, plateau);
-        Rover roverEast = new Rover(0, 0, Rover.EAST, plateau);
-        Rover roverSouth = new Rover(0, 0, Rover.SOUTH, plateau);
-        Rover roverWest = new Rover(0, 0, Rover.WEST, plateau);
+        Rover roverNorth = new Rover("roverNorth",0, 0, Rover.NORTH, plateau);
+        Rover roverEast = new Rover("roverEast",0, 0, Rover.EAST, plateau);
+        Rover roverSouth = new Rover("roverSouth",0, 0, Rover.SOUTH, plateau);
+        Rover roverWest = new Rover("roverWest",0, 0, Rover.WEST, plateau);
         roverNorth.turnRight();
         roverEast.turnRight();
         roverSouth.turnRight();
@@ -54,42 +54,42 @@ public class RoverTest {
     public void roverFacingNorthShouldMoveNorth() {
         Dimension plateau = new Dimension(30, 30);
         //x=0 , y=0
-        Rover rover = new Rover(0, 0, Rover.NORTH, plateau);
+        Rover rover = new Rover("Rover1",0, 0, Rover.NORTH, plateau);
         
         //y = y+1
         rover.move();
-        Assert.assertTrue("Rover facing North didn't move correctly", rover.y == 1);
+        Assert.assertTrue("Rover facing North didn't move correctly", rover.getY() == 1);
 
     }
     @Test
     public void roverFacingSouthShouldMoveSouth() {
         Dimension plateau = new Dimension(30, 30);
         //x=4 , y=4
-        Rover rover = new Rover(4, 4, Rover.SOUTH, plateau);
+        Rover rover = new Rover("Rover1",4, 4, Rover.SOUTH, plateau);
         
         //y = y-1
         rover.move();
-        Assert.assertTrue("Rover facing South didn't move correctly", rover.y == 3);
+        Assert.assertTrue("Rover facing South didn't move correctly", rover.getY() == 3);
     }
     @Test
     public void roverFacingEastShouldMoveEast() {
         Dimension plateau = new Dimension(30, 30);
         //x=4 , y=4
-        Rover rover = new Rover(4, 4, Rover.EAST, plateau);
+        Rover rover = new Rover("Rover1",4, 4, Rover.EAST, plateau);
         
         //x= x+1
         rover.move();
-        Assert.assertTrue("Rover facing East didn't move correctly", rover.x == 5);
+        Assert.assertTrue("Rover facing East didn't move correctly", rover.getX() == 5);
     }
     @Test
     public void roverFacingWestShouldMoveWest() {
         Dimension plateau = new Dimension(30, 30);
         //x=4 , y=4
-        Rover rover = new Rover(4, 4, Rover.WEST, plateau);
+        Rover rover = new Rover("Rover1",4, 4, Rover.WEST, plateau);
         
         //x = x-1
         rover.move();
-        Assert.assertTrue("Rover facing South didn't move correctly", rover.x == 3);
+        Assert.assertTrue("Rover facing South didn't move correctly", rover.getX() == 3);
     }
 
 }

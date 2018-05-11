@@ -18,19 +18,28 @@ public class Rover {
     public static final int SOUTH = 0xFFFEFFFF;
     public static final int EAST = 0xFEFFFFFF;
 
-    int heading;
-    int x;
-    int y;
-    Dimension plateau;
+    public static int getHeadingFromCode(String heading) {
+        switch (heading) {
+            case "N":
+                return NORTH;
+            case "E":
+                return EAST;
+            case "S":
+                return SOUTH;
+            case "W":
+                return WEST;
+        }
+        return 0;
+    }
 
-    public Rover(int x, int y, int heading, Dimension plateau) {
+    public Rover(String name, int x, int y, int heading, Dimension plateau) {
+        this.name = name;
         this.heading = heading;
         this.x = x;
         this.y = y;
         this.plateau = plateau;
     }
 
-    //What happens when moving out of bounds? Just stop or break?
     public void move() {
         switch (heading) {
             case NORTH:
@@ -65,6 +74,25 @@ public class Rover {
         this.heading = Integer.rotateRight(this.heading, 8);
     }
 
+    public String getHeadingCode() {
+        switch (heading) {
+            case NORTH:
+                return "N";
+            case EAST:
+                return "E";
+            case SOUTH:
+                return "S";
+            case WEST:
+                return "W";
+        }
+        return "";
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s:%d %d %s\n", name, x, y, getHeadingCode());
+    }
+
     public int getHeading() {
         return heading;
     }
@@ -76,4 +104,10 @@ public class Rover {
     public int getY() {
         return y;
     }
+
+    private String name;
+    private int heading;
+    private int x;
+    private int y;
+    private Dimension plateau;
 }
