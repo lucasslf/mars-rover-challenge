@@ -5,12 +5,8 @@
  */
 package com.eventmobi.marsrover.processor;
 
+import com.eventmobi.marsrover.domain.Plateau;
 import com.eventmobi.marsrover.domain.Rover;
-import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -25,11 +21,9 @@ public class MarsRoverCommandProcessor {
     static final char TURN_RIGHT_ROVER_COMMAND = 'R';
     static final char TURN_LEFT_ROVER_COMMAND = 'L';
 
-    Dimension plateau;
+    Plateau plateau;
 
-    Map<String, Rover> rovers = new HashMap<>();
-    
-    List<Rover> orderedRovers = new ArrayList<>();
+
 
     public void process(String instructionLine) {
 
@@ -68,7 +62,7 @@ public class MarsRoverCommandProcessor {
             if (PLATEAU_INSTRUCTION.equals(command)) {
                 int width = Integer.parseInt(args[0]) + 1;
                 int height = Integer.parseInt(args[1]) + 1;
-                plateau = new Dimension(width, height);
+                plateau = new Plateau(width, height);
             }else{
                 throw new RuntimeException("First instruction must be Plateau creation");
             }
@@ -81,11 +75,10 @@ public class MarsRoverCommandProcessor {
                     int x = Integer.parseInt(args[0]);
                     int y = Integer.parseInt(args[1]);
                     Rover r = new Rover(roverName,x, y, Rover.getHeadingFromCode(args[2]), plateau);
-                    rovers.put(roverName, r);
-                    orderedRovers.add(r);
+                    plateau.addRover(r);
                     break;
                 case INSTRUCTIONS_INSTRUCTION:
-                    processRoverInstructions(rovers.get(roverName), args[0]);
+                    processRoverInstructions(plateau.getRover(roverName), args[0]);
                     break;
                 default:
                     throw new RuntimeException("Unknown instruction "+cmd);
@@ -96,8 +89,6 @@ public class MarsRoverCommandProcessor {
     }
     
     public String getState(){
-        String result = "";
-        result = orderedRovers.stream().map(r -> r.toString()).reduce(result, String::concat);
-        return result;
+        return plateau.getState();
     }
 }

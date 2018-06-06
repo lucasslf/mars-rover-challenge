@@ -32,7 +32,7 @@ public class Rover {
         return 0;
     }
 
-    public Rover(String name, int x, int y, int heading, Dimension plateau) {
+    public Rover(String name, int x, int y, int heading, Plateau plateau) {
         this.name = name;
         this.heading = heading;
         this.x = x;
@@ -41,25 +41,43 @@ public class Rover {
     }
 
     public void move() {
+        int nextX = 0;
+        int nextY = 0;
         switch (heading) {
             case NORTH:
-                if (y < plateau.height) {
-                    y++;
+                if (y < plateau.getHeight() - 1) {
+                    nextX = this.getX();
+                    nextY = this.getY() + 1;
+                    if (plateau.isValidMove(this, nextX, nextY)) {
+                        y++;
+                    }
                 }
                 break;
             case SOUTH:
                 if (y > 0) {
-                    y--;
+                    nextX = this.getX();
+                    nextY = this.getY() - 1;
+                    if (plateau.isValidMove(this, nextX, nextY)) {
+                        y--;
+                    }
                 }
                 break;
             case EAST:
-                if (x < plateau.width) {
-                    x++;
+                if (x < plateau.getWidth() - 1) {
+                    nextX = this.getX() + 1;
+                    nextY = this.getY();
+                    if (plateau.isValidMove(this, nextX, nextY)) {
+                        x++;
+                    }
                 }
                 break;
             case WEST:
                 if (x > 0) {
-                    x--;
+                    nextX = this.getX() - 1;
+                    nextY = this.getY();
+                    if (plateau.isValidMove(this, nextX, nextY)) {
+                        x--;
+                    }
                 }
                 break;
         }
@@ -88,6 +106,10 @@ public class Rover {
         return "";
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String toString() {
         return String.format("%s:%d %d %s\n", name, x, y, getHeadingCode());
@@ -109,5 +131,5 @@ public class Rover {
     private int heading;
     private int x;
     private int y;
-    private Dimension plateau;
+    private Plateau plateau;
 }

@@ -5,7 +5,6 @@
  */
 package com.eventmobi.marsrover.domain;
 
-import java.awt.Dimension;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -17,7 +16,7 @@ public class RoverTest {
 
     @Test
     public void roverShouldTurnLeft() {
-        Dimension plateau = new Dimension(30, 30);
+        Plateau plateau = new Plateau(30, 30);
         Rover roverNorth = new Rover("roverNorth",0, 0, Rover.NORTH, plateau);
         Rover roverEast = new Rover("roverEast",0, 0, Rover.EAST, plateau);
         Rover roverSouth = new Rover("roverSouth",0, 0, Rover.SOUTH, plateau);
@@ -35,7 +34,7 @@ public class RoverTest {
 
     @Test
     public void roverShouldTurnRight() {
-        Dimension plateau = new Dimension(30, 30);
+        Plateau plateau = new Plateau(30, 30);
         Rover roverNorth = new Rover("roverNorth",0, 0, Rover.NORTH, plateau);
         Rover roverEast = new Rover("roverEast",0, 0, Rover.EAST, plateau);
         Rover roverSouth = new Rover("roverSouth",0, 0, Rover.SOUTH, plateau);
@@ -52,7 +51,7 @@ public class RoverTest {
     }
     @Test
     public void roverFacingNorthShouldMoveNorth() {
-        Dimension plateau = new Dimension(30, 30);
+        Plateau plateau = new Plateau(30, 30);
         //x=0 , y=0
         Rover rover = new Rover("Rover1",0, 0, Rover.NORTH, plateau);
         
@@ -63,7 +62,7 @@ public class RoverTest {
     }
     @Test
     public void roverFacingSouthShouldMoveSouth() {
-        Dimension plateau = new Dimension(30, 30);
+        Plateau plateau = new Plateau(30, 30);
         //x=4 , y=4
         Rover rover = new Rover("Rover1",4, 4, Rover.SOUTH, plateau);
         
@@ -73,7 +72,7 @@ public class RoverTest {
     }
     @Test
     public void roverFacingEastShouldMoveEast() {
-        Dimension plateau = new Dimension(30, 30);
+        Plateau plateau = new Plateau(30, 30);
         //x=4 , y=4
         Rover rover = new Rover("Rover1",4, 4, Rover.EAST, plateau);
         
@@ -83,7 +82,7 @@ public class RoverTest {
     }
     @Test
     public void roverFacingWestShouldMoveWest() {
-        Dimension plateau = new Dimension(30, 30);
+        Plateau plateau = new Plateau(30, 30);
         //x=4 , y=4
         Rover rover = new Rover("Rover1",4, 4, Rover.WEST, plateau);
         
@@ -91,5 +90,27 @@ public class RoverTest {
         rover.move();
         Assert.assertTrue("Rover facing South didn't move correctly", rover.getX() == 3);
     }
+    
+    @Test
+    public void roverShouldntGoOutOfBounds(){
+        Plateau plateau = new Plateau(5, 5);
+        
+        Rover rover = new Rover("Rover1",5,5,Rover.NORTH,plateau);
+        rover.move();
+        Assert.assertTrue("Rover went out of bounds",rover.getY()==5);
+        
+    }
+    
+    @Test
+    public void roverShouldIgoreCollidingMove(){
+        Plateau plateau = new Plateau(5, 5);
+        Rover rover1 = new Rover("Rover1", 1, 1, Rover.NORTH, plateau);
+        Rover rover2 = new Rover("Rover2", 1, 0, Rover.NORTH, plateau);
+        plateau.addRover(rover1);
+        plateau.addRover(rover2);
+        rover2.move();
+        Assert.assertTrue("Rover didnt ignore colliding move",rover2.getX()==1 && rover2.getY()==0);       
+    }
+    
 
 }
